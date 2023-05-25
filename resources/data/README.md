@@ -1,1 +1,0 @@
-Add any behavior pack modifications in this folder

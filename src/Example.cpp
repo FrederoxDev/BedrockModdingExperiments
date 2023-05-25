@@ -1,23 +1,21 @@
 #include "Zenova.h"
-
 #include "generated/initcpp.h"
+#include "Items/ItemDefinition.h"
+#include "Items/TestItem.h"
+#define CreateHook(a, b, c) \
+	Zenova::Platform::CreateHook(a, b, c)
 
-// Called when the Mod is loaded
-MOD_FUNCTION void ModLoad(ModContext& ctx) {
-	Zenova_Info("Mod {} loaded!", ctx.folder);
+#define SlideAddress(a) \
+	reinterpret_cast<void*>(Zenova::Hook::SlideAddress(a))
+
+inline static std::string(*_testFunc)();
+static std::string testFunc() {
+	auto& a = _testFunc();
+	Zenova_Info("Value of A: {}", a);
+	return a;
 }
 
-// Called after Minecraft main
 MOD_FUNCTION void ModStart() {
-	Zenova_Info("Mod Started!");
-}
-
-// Called every every 1/20th second
-MOD_FUNCTION void ModTick() {
-
-}
-
-// Called on clean up/exit
-MOD_FUNCTION void ModStop() {
-	Zenova_Info("Mod Stopped!");
+	ItemDefinition::Initialize();
+	ItemDefinition::addItem<TestItem>("fx:test_item", -1)->setIcon("fx:test_item", 0);
 }

@@ -1,1 +1,0 @@
-Add any resource pack modifications in this folder

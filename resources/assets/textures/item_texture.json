@@ -1,0 +1,9 @@
+{
+	"resource_pack_name": "dimension",
+	"texture_name": "atlas.items",
+	"texture_data": {
+		"fx:test_item": {
+			"textures": "textures/items/test_item"
+		}
+	}
+}

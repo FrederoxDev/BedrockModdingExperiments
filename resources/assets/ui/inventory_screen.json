@@ -1,0 +1,153 @@
+{
+    "tab_navigation_panel_layout": {
+        "type": "stack_panel",
+        "orientation": "horizontal",
+        "size": [
+            "100%",
+            27
+        ],
+        "$is_search_right_most_tab|default": true,
+        "controls": [
+            {
+                "navigation_tabs": {
+                    "type": "panel",
+                    "size": [
+                        "fill",
+                        "100%"
+                    ],
+                    "controls": [
+                        {
+                            "content": {
+                                "type": "stack_panel",
+                                "orientation": "horizontal",
+                                "size": [
+                                    "100%",
+                                    "100% + 4px"
+                                ],
+                                "anchor_to": "top_left",
+                                "anchor_from": "top_left",
+                                "controls": [
+                                    // Our tab in the top creative tabs
+                                    {
+                                        "test_category_tab@crafting.test_category_tab": {
+                                            "size": [
+                                                25,
+                                                "100%" //hey try to follow me lol kk
+                                            ]
+                                        }
+                                    },
+                                    { //can you go on creative.top_tab?
+                                        "construction_tab@crafting.construction_tab": {
+                                            "size": [ //i mean, in the original file, u are able to open it from in %zenova_data%/versions/, wait i have the minecraft lol
+                                                25,
+                                                "100%"
+                                            ]
+                                        }
+                                    },
+                                    {
+                                        "equipment_tab@crafting.equipment_tab": {
+                                            "size": [
+                                                25,
+                                                "100%"
+                                            ]
+                                        }
+                                    },
+                                    {
+                                        "items_tab@crafting.items_tab": {
+                                            "size": [
+                                                25,
+                                                "100%"
+                                            ]
+                                        }
+                                    },
+                                    {
+                                        "nature_tab@crafting.nature_tab": {
+                                            "size": [
+                                                25,
+                                                "100%"
+                                            ]
+                                        }
+                                    },
+                                    {
+                                        "fill_panel_0": {
+                                            "type": "panel",
+                                            "size": [
+                                                "fill",
+                                                "100%"
+                                            ]
+                                        }
+                                    },
+                                    {
+                                        "search_tab_holder": {
+                                            "type": "panel",
+                                            "size": [
+                                                25,
+                                                "100%"
+                                            ],
+                                            "controls": [
+                                                {
+                                                    "search_tab_end_creative@crafting.search_tab": {
+                                                        "$focus_override_right": "creative_layout_toggle",
+                                                        "bindings": [
+                                                            {
+                                                                "binding_type": "global",
+                                                                "binding_name": "#is_creative_and_recipe_book_layout",
+                                                                "binding_name_override": "#visible"
+                                                            }
+                                                        ]
+                                                    }
+                                                },
+                                                {
+                                                    "search_tab_creative@crafting.search_tab": {
+                                                        "$is_right_most_tab": false,
+                                                        "$focus_override_right": "creative_layout_toggle",
+                                                        "bindings": [
+                                                            {
+                                                                "binding_type": "global",
+                                                                "binding_name": "#is_creative_and_creative_layout",
+                                                                "binding_name_override": "#visible"
+                                                            }
+                                                        ]
+                                                    }
+                                                },
+                                                {
+                                                    "search_tab_survival@crafting.search_tab": {
+                                                        "$focus_override_right": "recipe_book_layout_toggle",
+                                                        "bindings": [
+                                                            {
+                                                                "binding_type": "global",
+                                                                "binding_name": "(not #is_creative_mode)",
+                                                                "binding_name_override": "#visible"
+                                                            }
+                                                        ]
+                                                    }
+                                                },
+                                                {
+                                                    "open_search_tab@game_tip.open_search_tab_factory": {}
+                                                }
+                                            ]
+                                        }
+                                    }
+                                ]
+                            }
+                        }
+                    ]
+                }
+            }
+        ]
+    },
+    "test_category_tab@crafting.top_tab": {
+        "$tab_view_binding_name": "test_category_tab_toggle",
+        "$tab_icon": "crafting.test_category_icon",
+        "$toggle_group_forced_index": 7,
+        "$toggle_binding_type": "global",
+        "$toggle_state_binding_name": "#is_left_tab_nature",
+        "$focus_id": "test_category_tab",
+        "$focus_override_left": "items_tab",
+        "$focus_override_right": "search_tab", // I AM GOING AFK OOPS CAPS, KK
+        "$focus_override_up": "FOCUS_OVERRIDE_STOP"
+    },
+    "test_category_icon@crafting.icon_image": {
+        "texture": "textures/ui/icon_recipe_nature"
+    }
+}
