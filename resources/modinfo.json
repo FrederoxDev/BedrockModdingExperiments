@@ -1,0 +1,9 @@
+{
+    "nameId": "Dimension",
+    "name": "Dimension Test",
+    "description": "Testing out custom dimensions",
+    "version": "1.0.0",
+    "mcversion": [
+        "1.14.60.5"
+    ]
+}
