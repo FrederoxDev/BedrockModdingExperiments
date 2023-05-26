@@ -1,9 +1,10 @@
 #pragma once
 #include <map>
 #include <string>
-#include "Util/SharedPtr.h"
-#include "Items/ItemRegistry.h"
-#include "Items/VanillaItems.h"
+#include "Minecraft/Util/SharedPtr.h"
+#include "Minecraft/Items/ItemRegistry.h"
+#include "Minecraft/Items/VanillaItems.h"
+#include "Minecraft/Items/Item.h"
 
 struct ItemEntryTexture {
 	std::string mName;
@@ -61,9 +62,7 @@ public:
 };
 
 class ItemDefinition {
-public:
-	inline static std::map<std::string, SharedPtr<ItemEntryBase>> mItemDefinitionGroup;
-
+private:
 	inline static void (*_registerItems)(bool);
 	static void registerItems(bool enableExperimentalGameplay) {
 		_registerItems(enableExperimentalGameplay);
@@ -85,6 +84,9 @@ public:
 			defGroup.second->initializeClientData();
 	}
 
+public:
+	inline static std::map<std::string, SharedPtr<ItemEntryBase>> mItemDefinitionGroup;
+
 	static void Initialize() {
 		Zenova_Hook(VanillaItems::registerItems, &registerItems, &_registerItems);
 		Zenova_Hook(VanillaItems::unregisterItems, &unregisterItems, &_unregisterItems);
@@ -98,5 +100,5 @@ public:
 		auto shared = SharedPtr<ItemEntry<T, Args&&...>>(new ItemEntry<T, Args&&...>(identifier, numId, std::forward<Args>(args)...));
 		mItemDefinitionGroup[identifier] = shared;
 		return shared;
-	}//lets set a icon? kk icon identifier is ok, in 
+	}
 };

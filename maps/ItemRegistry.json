@@ -21,6 +21,6 @@
 		"short& ItemRegistry::mMaxItemID": "0x30507BC"
 	},
 	"includes": [
-		"Items/ItemRegistry.h"
+		"Minecraft/Items/ItemRegistry.h"
 	]
 }

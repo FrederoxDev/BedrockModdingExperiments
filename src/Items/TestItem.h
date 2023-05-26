@@ -1,5 +1,5 @@
 #pragma once
-#include "Items/Item.h"
+#include "Minecraft/Items/Item.h"
 
 class TestItem : public Item {
 public:

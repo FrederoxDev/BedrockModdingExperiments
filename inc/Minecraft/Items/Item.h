@@ -1,8 +1,6 @@
 // File automatically generated from GenerateHeader.py
 // https://github.com/FrederoxDev/Bedrock-GhidraScripts
 
-//i need to quit for some 2h
-
 #pragma once
 #include <string>
 #include <memory>
@@ -44,14 +42,14 @@ namespace Json {
 };
 
 enum CreativeItemCategory {
-	ALL,
-	BLOCKS,
-	DECORATIONS,
-	TOOLS,
-	ITEMS,
-	COMMANDONLY,
-	NONE,
-	TEST_CATEGORY = 7
+	All,
+	Blocks,
+	Decorations,
+	Tools,
+	Items,
+	CommandOnly,
+	None,
+	TestCategory = 7
 };
 
 // r we ready to test? i dont know if ur done// yeah sorry// brb

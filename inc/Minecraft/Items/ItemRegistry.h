@@ -3,9 +3,9 @@
 #include <vector>
 #include <string>
 
-#include "Util/SharedPtr.h"
+#include "Minecraft/Util/SharedPtr.h"
 //#include "Block/Block.h"
-#include "Items/Item.h"
+#include "Minecraft/Items/Item.h"
 
 class ItemRegistry {
 public:

@@ -1,6 +1,6 @@
 #include "Zenova.h"
 #include "generated/initcpp.h"
-#include "Items/ItemDefinition.h"
+#include "ItemDefinition.h"
 #include "Items/TestItem.h"
 #define CreateHook(a, b, c) \
 	Zenova::Platform::CreateHook(a, b, c)
