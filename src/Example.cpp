@@ -16,6 +16,6 @@ static std::string testFunc() {
 }
 
 MOD_FUNCTION void ModStart() {
-	ItemDefinition::Initialize();
-	ItemDefinition::addItem<TestItem>("fx:test_item", -1)->setIcon("fx:test_item", 0);
+	ItemDefinition::InitializeHooks();
+	ItemDefinition::addItem<TestItem>("fx:test_item")->setIcon("fx:test_item", 0);
 }

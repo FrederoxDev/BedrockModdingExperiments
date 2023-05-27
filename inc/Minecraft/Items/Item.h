@@ -52,9 +52,6 @@ enum CreativeItemCategory {
 	TestCategory = 7
 };
 
-// r we ready to test? i dont know if ur done// yeah sorry// brb
-// nothing showed up in the tab, expected, kk
-
 class Item {
 	char filler[0x1C0 - sizeof(void*)];
 public:

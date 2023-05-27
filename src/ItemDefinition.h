@@ -87,16 +87,15 @@ private:
 public:
 	inline static std::map<std::string, SharedPtr<ItemEntryBase>> mItemDefinitionGroup;
 
-	static void Initialize() {
+	static void InitializeHooks() {
 		Zenova_Hook(VanillaItems::registerItems, &registerItems, &_registerItems);
 		Zenova_Hook(VanillaItems::unregisterItems, &unregisterItems, &_unregisterItems);
 		Zenova_Hook(VanillaItems::initClientData, &initClientData, &_initClientData);
 	}
 
 	template<typename T, typename... Args>
-	static WeakPtr<ItemEntry<T, Args&&...>> addItem(const std::string& identifier, short numId, Args&&... args) {
-		if (numId < 0)
-			numId = ItemRegistry::getMaxItemID() + 256;
+	static WeakPtr<ItemEntry<T, Args&&...>> addItem(const std::string& identifier, Args&&... args) {
+		int numId = ItemRegistry::getMaxItemID() + 256;
 		auto shared = SharedPtr<ItemEntry<T, Args&&...>>(new ItemEntry<T, Args&&...>(identifier, numId, std::forward<Args>(args)...));
 		mItemDefinitionGroup[identifier] = shared;
 		return shared;
