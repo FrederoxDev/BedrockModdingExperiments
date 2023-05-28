@@ -4,26 +4,27 @@
 #pragma once
 #include <string>
 #include <memory>
+#include <functional>
+#include "Minecraft/Util/StringHash.h"
+#include "Minecraft/Util/Vec.h"
+#include "Minecraft/Util/Version.h"
+#include "Minecraft/Util/SharedPtr.h"
 
 class ReadOnlyBinaryStream;
 class Mob;
 class Player;
-class BaseGameVersion;
 class ItemStackBase;
 class Color;
 class ItemDescriptor;
 class BlockSource;
 class TextureAtlasItem;
-class Item;
 class Container;
 // class std::string;
 class IDataInput;
 class IDataOutput;
-class Vec3;
 class Actor;
 class Block;
 class Level;
-class BlockPos;
 // class Json::Value;
 class ItemStack;
 class CompoundTag;
@@ -36,6 +37,10 @@ enum CooldownType;
 enum ItemUseMethod;
 enum ItemAcquisitionMethod;
 enum UseAnimation;
+class FoodItemComponent;
+class SeedItemComponent;
+class CameraItemComponent;
+class BlockLegacy;
 
 namespace Json {
 	class Value;
@@ -52,9 +57,60 @@ enum CreativeItemCategory {
 	TestCategory = 7
 };
 
+struct CreativeGroupInfo {
+	std::string mName;
+	short mIconId;
+	short mIconAux;
+	std::unique_ptr<CompoundTag> mIconUserData;
+
+	CreativeGroupInfo() = default;
+};
+
 class Item {
-	char filler[0x1C0 - sizeof(void*)];
+protected:
+    unsigned char m_maxStackSize;
+    std::string m_textureAtlasFile;
+    int m_frameCount;
+    bool m_animatesInToolbar;
+    bool mIsMirroredArt;
+    UseAnimation mUseAnim;
+    const std::string* mHoverTextColorFormat;
+    const TextureUVCoordinateSet* mIconTexture;
+    const TextureAtlasItem* mIconAtlas;
+    bool mUsesRenderingAdjustment;
+    Vec3 mRenderingAdjTrans;
+    Vec3 mRenderingAdjRot;
+    float mRenderingAdjScale;
+    short mId;
+    std::string mDescriptionId;
+    std::string mRawNameId;
+    std::string mNamespace;
+    HashedString mFullName;
+    short mMaxDamage;
+    bool mIsGlint : 1;
+    bool mHandEquipped : 1;
+    bool mIsStackedByData : 1;
+    bool mRequiresWorldBuilder : 1;
+    bool mExplodable : 1;
+    bool mShouldDespawn : 1;
+    bool mAllowOffhand : 1;
+    bool mIgnoresPermissions : 1;
+    bool mExperimental : 1;
+    int mMaxUseDuration;
+    BaseGameVersion mMinRequiredBaseGameVersion;
+    WeakPtr<BlockLegacy> mLegacyBlock;
+    CreativeItemCategory mCreativeCategory;
+    Item* mCraftingRemainingItem;
+    std::unique_ptr<FoodItemComponent> mFoodComponent;
+    std::unique_ptr<SeedItemComponent> mSeedComponent;
+    std::unique_ptr<CameraItemComponent> mCameraComponent;
+    std::vector<std::function<void()>> mOnResetBAIcallbacks;
 public:
+    static bool& mInCreativeGroup;
+    static std::vector<ItemInstance>& mCreativeList;
+    static std::vector<std::vector<ItemInstance>>& mCreativeGroups;
+    static std::vector<CreativeGroupInfo>& mCreativeGroupInfo;
+
 	Item(const std::string&, short);
 	virtual ~Item();
 	virtual void tearDown();
@@ -108,9 +164,6 @@ public:
 	virtual void saveAdditionalData(const ItemStackBase&, CompoundTag&) const;
 	virtual void readAdditionalData(ItemStackBase&, const CompoundTag&) const;
 	virtual bool isTintable() const;
-	// buildIdAux // i cant find this one in ur headers
-	// buildDescriptor //very good // should these be in the Item.h? my script found em, but they're not in your stuff
-	// nah, it just need to have exactly 98 virtual functions with the dtor here
 	virtual ItemStack& use(ItemStack&, Player&) const;
 	virtual bool dispense(BlockSource&, Container&, int, const Vec3&, unsigned char) const;
 	virtual ItemUseMethod useTimeDepleted(ItemInstance&, Level*, Player*) const;
@@ -181,6 +234,9 @@ public:
 	static const TextureAtlasItem& getTextureItem(const std::string&);
 	const std::string& getCommandName() const;
 	std::string getSerializedName() const;
+	static void endCreativeGroup() {
+		mInCreativeGroup = false;
+	}
 protected:
 	float destroySpeedBonus(const ItemInstance&) const;
 	void _helpChangeInventoryItemInPlace(Actor&, ItemStack&, ItemStack&, ItemAcquisitionMethod) const;

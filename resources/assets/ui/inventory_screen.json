@@ -28,17 +28,9 @@
                                 "anchor_from": "top_left",
                                 "controls": [
                                     // Our tab in the top creative tabs
-                                    {
-                                        "test_category_tab@crafting.test_category_tab": {
-                                            "size": [
-                                                25,
-                                                "100%" //hey try to follow me lol kk
-                                            ]
-                                        }
-                                    },
                                     { //can you go on creative.top_tab?
                                         "construction_tab@crafting.construction_tab": {
-                                            "size": [ //i mean, in the original file, u are able to open it from in %zenova_data%/versions/, wait i have the minecraft lol
+                                            "size": [
                                                 25,
                                                 "100%"
                                             ]
@@ -62,6 +54,14 @@
                                     },
                                     {
                                         "nature_tab@crafting.nature_tab": {
+                                            "size": [
+                                                25,
+                                                "100%"
+                                            ]
+                                        }
+                                    },
+                                    {
+                                        "test_category_tab@crafting.test_category_tab": {
                                             "size": [
                                                 25,
                                                 "100%"
@@ -136,15 +136,18 @@
             }
         ]
     },
+    "nature_tab@crafting.top_tab": {
+        "$focus_override_right": "test_category_tab"
+    },
     "test_category_tab@crafting.top_tab": {
         "$tab_view_binding_name": "test_category_tab_toggle",
         "$tab_icon": "crafting.test_category_icon",
         "$toggle_group_forced_index": 7,
         "$toggle_binding_type": "global",
-        "$toggle_state_binding_name": "#is_left_tab_nature",
+        // "$toggle_state_binding_name": "#is_left_tab_nature",
         "$focus_id": "test_category_tab",
-        "$focus_override_left": "items_tab",
-        "$focus_override_right": "search_tab", // I AM GOING AFK OOPS CAPS, KK
+        "$focus_override_left": "nature_tab",
+        "$focus_override_right": "search_tab",
         "$focus_override_up": "FOCUS_OVERRIDE_STOP"
     },
     "test_category_icon@crafting.icon_image": {

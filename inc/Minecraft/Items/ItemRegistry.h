@@ -8,10 +8,13 @@
 #include "Minecraft/Items/Item.h"
 
 class ItemRegistry {
+private:
+	static short& mMaxItemID;
+
 public:
 	template<typename T, typename... Args>
 	static WeakPtr<T> registerItem(const std::string& name, short id, Args&&... args) {
-		return ItemRegistry::registerItemShared<T>(name, id + 256, std::forward<Args>(args)...);
+		return ItemRegistry::registerItemShared<T>(name, id, std::forward<Args>(args)...);
 	}
 
 	/*template<typename T, typename... Args>
@@ -42,16 +45,17 @@ public:
 		return lookupByName(itemAux, inString);
 	}
 	static WeakPtr<Item> getItem(const short);
+
 	/*static WeakPtr<Item> getItem(const Block& block) {
 		return getItem(block.getLegacyBlock());
 	}
 	static WeakPtr<Item> getItem(const BlockLegacy& blockLegacy) {
 		return getItem(blockLegacy.getBlockItemId());
 	}*/
+
 	static short getMaxItemID() {
 		return mMaxItemID;
 	}
 
-	static short& mMaxItemID;
 	static std::vector<SharedPtr<Item>>& mItemRegistry;
 };

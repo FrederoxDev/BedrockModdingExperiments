@@ -4,6 +4,9 @@
 	"texture_data": {
 		"fx:test_item": {
 			"textures": "textures/items/test_item"
+		},
+		"fx:test_item_2": {
+			"textures": "textures/items/test_item_2"
 		}
 	}
 }

@@ -1,103 +1,135 @@
 #pragma once
 #include <map>
-#include <string>
+#include <vector>
+#include "Minecraft/Items/Item.h" 
 #include "Minecraft/Util/SharedPtr.h"
-#include "Minecraft/Items/ItemRegistry.h"
 #include "Minecraft/Items/VanillaItems.h"
-#include "Minecraft/Items/Item.h"
+#include "Minecraft/Items/ItemRegistry.h"
 
-struct ItemEntryTexture {
-	std::string mName;
-	int mAux;
+struct ItemGroup {
+	const std::string iconItem;
+	const std::string langKey;
+	CreativeItemCategory category;
+	const std::vector<std::string> itemIdentifiers;
 };
 
 class ItemEntryBase {
 protected:
-	WeakPtr<Item> currentWeak;
+	WeakPtr<Item> itemWeakPtr;
+
 public:
 	virtual ~ItemEntryBase() = default;
 	virtual void registerItem() = 0;
-	virtual void unregisterItem() = 0;
-	virtual ItemEntryBase& setIcon(const std::string&, int) = 0;
-	virtual void initializeClientData() = 0;
-	virtual WeakPtr<Item> getCurrentWeak() const = 0;
-	virtual ItemEntryBase& createCreativeGroup(const std::string&, short, const CompoundTag*) { return *this; }
-	virtual ItemEntryBase& addCreativeItem(short) { return *this; }
-	virtual ItemEntryBase& finishCreativeGroup() { return *this; }
+	virtual void initializeClient() = 0;
+	virtual WeakPtr<Item> getCurrentWeak() = 0;
 };
 
-template<typename T, typename... Args>
+template<typename T>
 class ItemEntry : ItemEntryBase {
-    T* ptr = nullptr;
-	ItemEntryTexture mItemEntryTexture;
+private:
+	std::string mIdentifier;
+	WeakPtr<Item> mItemWeakPtr;
+
 public:
-	ItemEntry(const std::string& nameId, short numId, Args&&... args) {
-		ptr = new T(nameId, numId, std::forward<Args>(args)...);
-	}
+	ItemEntry(const std::string& identifier) : mIdentifier(identifier) {};
 
 	virtual ~ItemEntry() = default;
 
 	virtual void registerItem() {
-		auto shared = SharedPtr<T>(ptr);
+		short itemID = ItemRegistry::getMaxItemID() + 1;
+		auto shared = SharedPtr<T>(new T(mIdentifier, itemID));
+		Zenova_Info("{}: {}", mIdentifier, itemID);
 		ItemRegistry::registerItem(shared);
-		currentWeak = shared;
+		mItemWeakPtr = shared;
 	}
 
-	virtual void unregisterItem() {
-		
+	virtual void initializeClient() 
+	{
+		mItemWeakPtr.get()->setIcon(mIdentifier, 0);
 	}
 
-    virtual ItemEntryBase& setIcon(const std::string& name, int aux) {
-		mItemEntryTexture = { name, aux };
-		return *this;
-	}
-
-	virtual void initializeClientData() {
-		currentWeak->setIcon(mItemEntryTexture.mName, mItemEntryTexture.mAux);
-	}
-
-	virtual WeakPtr<Item> getCurrentWeak() const {
-		return currentWeak;
+	virtual WeakPtr<Item> getCurrentWeak() 
+	{
+		return mItemWeakPtr;
 	}
 };
 
 class ItemDefinition {
 private:
+	inline static std::map<std::string, SharedPtr<ItemEntryBase>> mItemMap;
+	inline static std::vector<ItemGroup> mItemGroups;
+
 	inline static void (*_registerItems)(bool);
-	static void registerItems(bool enableExperimentalGameplay) {
+	static void registerItems(bool enableExperimentalGameplay) 
+	{
 		_registerItems(enableExperimentalGameplay);
-		for (auto& defGroup : mItemDefinitionGroup)
-			defGroup.second->registerItem();
+
+		for (auto& item : mItemMap) 
+		{
+			item.second->registerItem();
+		}
 	}
 
 	inline static void (*_unregisterItems)();
-	static void unregisterItems() {
+	static void unregisterItems()
+	{
 		_unregisterItems();
-		for (auto& defGroup : mItemDefinitionGroup)
-			defGroup.second->unregisterItem();
 	}
 
 	inline static void (*_initClientData)();
-	static void initClientData() {
+	static void initClientData() 
+	{
 		_initClientData();
-		for (auto& defGroup : mItemDefinitionGroup)
-			defGroup.second->initializeClientData();
+
+		for (auto& item : mItemMap) 
+		{
+			item.second->initializeClient();
+		}
+	}
+
+	inline static void (*_initCreativeItems)(ActorInfoRegistry*, BlockDefinitionGroup*, bool);
+	static void initCreativeItems(ActorInfoRegistry* actorReg, BlockDefinitionGroup* blockDefGroup, bool flag)
+	{
+		_initCreativeItems(actorReg, blockDefGroup, flag);
+
+		for (ItemGroup& group : mItemGroups) 
+		{
+			Item::beginCreativeGroup(group.langKey, mItemMap[group.iconItem]->getCurrentWeak().get(), 0, nullptr);
+			
+			for (std::string identifier : group.itemIdentifiers)
+			{
+				Item* item = mItemMap[identifier]->getCurrentWeak().get();
+				item->setCategory(group.category);
+				Item::addCreativeItem(item, 0);
+			}
+
+			Item::endCreativeGroup();
+		}
 	}
 
 public:
-	inline static std::map<std::string, SharedPtr<ItemEntryBase>> mItemDefinitionGroup;
-
-	static void InitializeHooks() {
+	static void InitializeHooks() 
+	{
 		Zenova_Hook(VanillaItems::registerItems, &registerItems, &_registerItems);
 		Zenova_Hook(VanillaItems::unregisterItems, &unregisterItems, &_unregisterItems);
 		Zenova_Hook(VanillaItems::initClientData, &initClientData, &_initClientData);
+		Zenova_Hook(VanillaItems::initCreativeItemsCallback, &initCreativeItems, &_initCreativeItems);
 	}
 
-	template<typename T, typename... Args>
-	static WeakPtr<ItemEntry<T, Args&&...>> addItem(const std::string& identifier, Args&&... args) {
-		int numId = ItemRegistry::getMaxItemID() + 256;
-		auto shared = SharedPtr<ItemEntry<T, Args&&...>>(new ItemEntry<T, Args&&...>(identifier, numId, std::forward<Args>(args)...));
-		mItemDefinitionGroup[identifier] = shared;
-		return shared;
+	template<typename T>
+	static void RegisterItem(const std::string& identifier) 
+	{
+		SharedPtr<ItemEntry<T>> shared(new ItemEntry<T>(identifier));
+		mItemMap[identifier] = shared;
+	}
+
+	static void CreateItemGroup(const std::string& iconItem, const std::string& langKey, CreativeItemCategory category, const std::vector<std::string>& items) 
+	{
+		mItemGroups.push_back({
+			iconItem,
+			langKey,
+			category,
+			items
+		});
 	}
 };

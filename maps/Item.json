@@ -13,7 +13,7 @@
 			"name": "?beginCreativeGroup@Item@@SAXAEBV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@PEBVBlock@@PEBVCompoundTag@@@Z"
 		},
 		{
-			"address": "0x0",
+			"address": "0x1560AB0",
 			"name": "?beginCreativeGroup@Item@@SAXAEBV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@PEAV1@FPEBVCompoundTag@@@Z"
 		},
 		{
@@ -25,7 +25,7 @@
 			"name": "?addCreativeItem@Item@@SAXAEBVBlock@@@Z"
 		},
 		{
-			"address": "0x0",
+			"address": "0x1560C90",
 			"name": "?addCreativeItem@Item@@SAXPEAV1@F@Z"
 		},
 		{
@@ -198,5 +198,8 @@
 			],
 			"name": "Item"
 		}
-	]
+	],
+	"variables": {
+		"bool& Item::mInCreativeGroup": "0x30507BA"
+	}
 }
