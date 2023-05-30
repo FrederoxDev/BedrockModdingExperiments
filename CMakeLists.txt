@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.12)
 
-set(ModName Dimension)
+set(ModName BedrockModdingExperiments)
 set(SourceDir src)
 set(IncludeDir inc)
 set(generated_directory "${CMAKE_CURRENT_SOURCE_DIR}/${SourceDir}/generated")
