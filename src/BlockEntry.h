@@ -1,6 +1,9 @@
 #pragma once
 #include "Minecraft/Memory/SharedPtr.h"
 #include "Minecraft/Blocks/BlockTypeRegistry.h"
+#include "Minecraft/Items/BlockItem.h"
+
+class BlockItem;
 
 class BlockEntryBase {
 protected:
@@ -9,6 +12,7 @@ protected:
 public:
 	virtual ~BlockEntryBase() = default;
     virtual void registerBlock(BlockDefinitionGroup* blockGroup) = 0;
+	virtual void registerBlockItem() = 0;
 	virtual WeakPtr<BlockLegacy> getCurrentWeak() = 0;
 };
 
@@ -32,6 +36,11 @@ public:
 		BlockTypeRegistry::mBlockLookupMap[mIdentifier] = shared;
 		//mBlockWeakPtr = shared->createWeakPtr();
     }
+
+	virtual void registerBlockItem()
+	{
+		ItemRegistry::registerBlockItem<BlockItem>(mBlockWeakPtr->getDescriptionId(), *mBlockWeakPtr);
+	}
 
 	virtual WeakPtr<BlockLegacy> getCurrentWeak()
 	{

@@ -7,6 +7,12 @@
 #include <functional>
 #include "Minecraft/Memory/SharedPtr.h"
 #include "Minecraft/Blocks/Material.h"
+#include "Minecraft/Memory/Mutex.h"
+#include "Minecraft/Util/AABB.h"
+#include "Minecraft/Util/Version.h"
+#include "Minecraft/Items/ItemStateInstance.h"
+#include "Minecraft/Util/NewType.h"
+
 class BlockLegacy;
 class BlockSource;
 class SpawnConditions;
@@ -24,10 +30,7 @@ class MobSpawnerData;
 class Color;
 class ItemState;
 class Block;
-class AABB;
 class ItemInstance;
-class ItemStateInstance;
-struct Brightness;
 struct ActorBlockSyncMessage;
 enum Flip;
 enum CreativeItemCategory;
@@ -35,7 +38,28 @@ enum BlockProperty;
 enum BlockSupportType;
 enum FertilizerType;
 enum BlockRenderLayer;
+enum BlockActorType;
+class LootComponent;
 
+struct Brightness : public NewType<unsigned char> {
+	static const Brightness MAX;
+	static const Brightness MIN;
+	static const Brightness INVALID;
+	static Raw NUM_VALUES;
+public:
+	Brightness(const Raw& v) : NewType<unsigned char>(v) { }
+
+	Brightness() : Brightness(MIN) { }
+
+	Brightness& operator-=(const Brightness& rhs) {
+		value -= rhs.value;
+		return *this;
+	}
+	Brightness& operator+=(const Brightness& rhs) {
+		value += rhs.value;
+		return *this;
+	}
+};
 
 class BlockLegacy {
 	std::string mDescriptionId;
@@ -70,8 +94,8 @@ class BlockLegacy {
 	bool mIsTrapdoor;
 	bool mIsDoor;
 	float mTranslucency;
-	Brightness mLightBlock;
-	Brightness mLightEmission;
+	unsigned char mLightBlock;
+	unsigned char mLightEmission;
 	bool mShouldRandomTick;
 	bool mShouldRandomTickExtraLayer;
 	int mFlameOdds;
@@ -80,7 +104,7 @@ class BlockLegacy {
 	bool mCanBeExtraBlock;
 	bool mCanPropagateBrightness;
 private:
-	NewBlockID mID;
+	unsigned short mID;
 	BaseGameVersion mMinRequiredBaseGameVersion;
 	bool mExperimental;
 	bool mIsVanilla;
@@ -277,6 +301,14 @@ public:
 	static unsigned char getPlacementFacingAll(Actor&, const BlockPos&, float);
 	static unsigned char getPlacementFacingAllExceptAxisY(Actor&, const BlockPos&, float);
 	WeakPtr<BlockLegacy> createWeakPtr();
+
+	const std::string& getDescriptionId() const {
+		return mDescriptionId;
+	}
+
+	inline const std::string& getRawNameId() const {
+		return mRawNameId;
+	}
 
 // Begin Variables
 // public: static float const BlockLegacy::SIZE_OFFSET;

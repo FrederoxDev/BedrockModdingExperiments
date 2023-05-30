@@ -9,6 +9,11 @@
 #include "ItemEntry.h"
 #include "Minecraft/Blocks/BlockDefinitionGroup.h"
 
+enum RegistryEntryType {
+	ItemEntryType,
+	BlockEntryType
+};
+
 struct ItemGroup
 {
 	const std::string iconItem;
@@ -20,6 +25,7 @@ struct ItemGroup
 class ModRegistry
 {
 private:
+	inline static std::map<std::string, RegistryEntryType> mEntryTypeLookup;
 	inline static std::map<std::string, SharedPtr<ItemEntryBase>> mItemMap;
 	inline static std::map<std::string, SharedPtr<BlockEntryBase>> mBlockMap;
 	inline static std::vector<ItemGroup> mItemGroups;
@@ -29,9 +35,14 @@ private:
 	{
 		_registerItems(enableExperimentalGameplay);
 
-		for (auto &item : mItemMap)
+		for (auto& item : mItemMap)
 		{
 			item.second->registerItem();
+		}
+
+		for (auto& block : mBlockMap)
+		{
+			block.second->registerBlockItem();
 		}
 	}
 
@@ -59,13 +70,26 @@ private:
 
 		for (ItemGroup &group : mItemGroups)
 		{
+			// Todo: Support block as icon
 			Item::beginCreativeGroup(group.langKey, mItemMap[group.iconItem]->getCurrentWeak().get(), 0, nullptr);
 
 			for (std::string identifier : group.itemIdentifiers)
 			{
-				Item *item = mItemMap[identifier]->getCurrentWeak().get();
-				item->setCategory(group.category);
-				Item::addCreativeItem(item, 0);
+				RegistryEntryType entryType = mEntryTypeLookup[identifier];
+
+				if (entryType == RegistryEntryType::ItemEntryType) 
+				{
+					Item* item = mItemMap[identifier]->getCurrentWeak().get();
+					item->setCategory(group.category);
+					Item::addCreativeItem(item, 0);
+				}
+
+				else if (entryType == RegistryEntryType::BlockEntryType)
+				{
+					BlockLegacy* block = mBlockMap[identifier]->getCurrentWeak().get();
+					block->setCategory(group.category);
+					Item::addCreativeItem(block->getDefaultState());
+				}
 			}
 
 			Item::endCreativeGroup();
@@ -97,6 +121,7 @@ public:
 	static void RegisterItem(const std::string &identifier)
 	{
 		SharedPtr<ItemEntry<T>> shared(new ItemEntry<T>(identifier));
+		mEntryTypeLookup[identifier] = RegistryEntryType::ItemEntryType;
 		mItemMap[identifier] = shared;
 	}
 
@@ -104,6 +129,7 @@ public:
 	static void RegisterBlock(const std::string &identifier, MaterialType matType)
 	{
 		SharedPtr<BlockEntry<T>> shared(new BlockEntry<T>(identifier, matType));
+		mEntryTypeLookup[identifier] = RegistryEntryType::BlockEntryType;
 		mBlockMap[identifier] = shared;
 	}
 
