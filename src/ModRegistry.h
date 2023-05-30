@@ -2,7 +2,7 @@
 #include <map>
 #include <vector>
 #include "Minecraft/Items/Item.h"
-#include "Minecraft/Util/SharedPtr.h"
+#include "Minecraft/Memory/SharedPtr.h"
 #include "Minecraft/Items/VanillaItems.h"
 #include "Minecraft/Items/ItemRegistry.h"
 #include "BlockEntry.h"

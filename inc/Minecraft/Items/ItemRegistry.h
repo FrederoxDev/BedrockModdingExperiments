@@ -3,7 +3,7 @@
 #include <vector>
 #include <string>
 
-#include "Minecraft/Util/SharedPtr.h"
+#include "Minecraft/Memory/SharedPtr.h"
 #include "Minecraft/Blocks/BlockLegacy.h"
 #include "Minecraft/Items/Item.h"
 

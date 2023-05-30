@@ -1,5 +1,5 @@
 #pragma once
-#include "Minecraft/Util/SharedPtr.h"
+#include "Minecraft/Memory/SharedPtr.h"
 #include "Minecraft/Blocks/BlockTypeRegistry.h"
 
 class BlockEntryBase {
@@ -27,9 +27,10 @@ public:
     {
 		int id = blockGroup->getNextBlockId();
 		auto shared = SharedPtr<T>(new T(mIdentifier, id, Material::getMaterial(mMatType)));
+		Zenova_Info("{}", shared->getRawNameId());
+		Zenova_Info("{}: {}", mIdentifier, id);
 		BlockTypeRegistry::mBlockLookupMap[mIdentifier] = shared;
 		//mBlockWeakPtr = shared->createWeakPtr();
-		Zenova_Info("{}: {}", mIdentifier, id);
     }
 
 	virtual WeakPtr<BlockLegacy> getCurrentWeak()

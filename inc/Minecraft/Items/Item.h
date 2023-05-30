@@ -8,7 +8,7 @@
 #include "Minecraft/Util/StringHash.h"
 #include "Minecraft/Util/Vec.h"
 #include "Minecraft/Util/Version.h"
-#include "Minecraft/Util/SharedPtr.h"
+#include "Minecraft/Memory/SharedPtr.h"
 
 class ReadOnlyBinaryStream;
 class Mob;

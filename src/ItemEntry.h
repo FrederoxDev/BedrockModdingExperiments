@@ -1,5 +1,5 @@
 #pragma once
-#include "Minecraft/Util/SharedPtr.h"
+#include "Minecraft/Memory/SharedPtr.h"
 
 class ItemEntryBase {
 protected:

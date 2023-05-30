@@ -1,7 +1,7 @@
 #pragma once
 #include <unordered_map>
 #include <string>
-#include "Minecraft/Util/SharedPtr.h"
+#include "Minecraft/Memory/SharedPtr.h"
 #include "Minecraft/Blocks/BlockLegacy.h"
 
 class BlockTypeRegistry {

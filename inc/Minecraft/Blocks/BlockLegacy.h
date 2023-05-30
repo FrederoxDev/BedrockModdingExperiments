@@ -5,7 +5,7 @@
 #include <string>
 #include <vector>
 #include <functional>
-#include "Minecraft/Util/SharedPtr.h"
+#include "Minecraft/Memory/SharedPtr.h"
 #include "Minecraft/Blocks/Material.h"
 class BlockLegacy;
 class BlockSource;
@@ -38,6 +38,64 @@ enum BlockRenderLayer;
 
 
 class BlockLegacy {
+	std::string mDescriptionId;
+	std::string mRawNameId;
+	std::string mNamespace;
+	std::string mFullName;
+	bool mFancy;
+	BlockRenderLayer mRenderLayer;
+	bool mRenderLayerCanRenderAsOpaque;
+	BlockProperty mProperties;
+	BlockActorType mBlockEntityType;
+	bool mAnimatedTexture;
+	float mBrightnessGamma;
+	float mThickness;
+	bool mCanSlide;
+	bool mCanInstatick;
+	bool mIsInteraction;
+	float mGravity;
+	const Material& mMaterial;
+	Color mMapColor;
+	float mFriction;
+	bool mHeavy;
+	float mParticleQuantityScalar;
+	float mDestroySpeed;
+	float mExplosionResistance;
+	CreativeItemCategory mCreativeCategory;
+	bool mAllowsRunes;
+	bool mCanBeBrokenFromFalling;
+	bool mSolid;
+	bool mPushesOutItems;
+	bool mIgnoreBlockForInsideCubeRenderer;
+	bool mIsTrapdoor;
+	bool mIsDoor;
+	float mTranslucency;
+	Brightness mLightBlock;
+	Brightness mLightEmission;
+	bool mShouldRandomTick;
+	bool mShouldRandomTickExtraLayer;
+	int mFlameOdds;
+	int mBurnOdds;
+	bool mIsMobPiece;
+	bool mCanBeExtraBlock;
+	bool mCanPropagateBrightness;
+private:
+	NewBlockID mID;
+	BaseGameVersion mMinRequiredBaseGameVersion;
+	bool mExperimental;
+	bool mIsVanilla;
+public:
+	std::unique_ptr<LootComponent> mLootComponent;
+private:
+	AABB mVisualShape;
+	unsigned int mBitsUsed;
+	unsigned int mTotalBitsUsed;
+	std::array<ItemStateInstance, 105> mStates;
+	std::vector<std::unique_ptr<Block>> mBlockPermutations;
+	const Block* mDefaultState;
+	Bedrock::Threading::SharedMutex mLegacyDataLookupTableMutex;
+	std::vector<int64_t> mLegacyDataLookupTable;
+
 public:
 	virtual ~BlockLegacy();
 	virtual void tick(BlockSource&, const BlockPos&, Random&) const;

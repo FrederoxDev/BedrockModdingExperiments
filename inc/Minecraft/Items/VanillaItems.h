@@ -3,7 +3,7 @@
 class ActorInfoRegistry;
 class BlockDefinitionGroup;
 
-#include "Minecraft/Util/SharedPtr.h"
+#include "Minecraft/Memory/SharedPtr.h"
 #include "Minecraft/Items/Item.h"
 
 class VanillaItems {
