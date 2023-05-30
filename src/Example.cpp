@@ -1,9 +1,10 @@
 #include "Zenova.h"
 #include "generated/initcpp.h"
-#include "ItemDefinition.h"
+#include "ModRegistry.h"
 #include "Items/TestItem.h"
 #include "Items/TestItem2.h"
 #include "Minecraft/Items/Item.h"
+#include "Blocks/TestBlock.h"
 
 #define CreateHook(a, b, c) \
 	Zenova::Platform::CreateHook(a, b, c)
@@ -18,20 +19,14 @@ static std::string testFunc() {
 	return a;
 }
 
-inline static void(*_test)();
-static void test() {
-	Zenova_Info("Sup!");
-	_test();
-}
-
 MOD_FUNCTION void ModStart() {
-	/*CreateHook(SlideAddress(0x318c60), &test, &_test);*/
+	ModRegistry::InitializeHooks();
+	ModRegistry::RegisterItem<TestItem>("fx:test_item");
+	ModRegistry::RegisterItem<TestItem2>("fx:test_item_2");
 
-	ItemDefinition::InitializeHooks();
-	ItemDefinition::RegisterItem<TestItem>("fx:test_item");
-	ItemDefinition::RegisterItem<TestItem2>("fx:test_item_2");
+	ModRegistry::RegisterBlock<TestBlock>("fx:test_block", MaterialType::Metal);
 
-	ItemDefinition::CreateItemGroup("fx:test_item", "itemGroup.test.name", CreativeItemCategory::Decorations, 
+	ModRegistry::CreateItemGroup("fx:test_item", "itemGroup.test.name", CreativeItemCategory::Decorations, 
 		{ "fx:test_item", "fx:test_item_2" }
 	);
 }

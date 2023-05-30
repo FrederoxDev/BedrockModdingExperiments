@@ -32,4 +32,8 @@ public:
 	Vec3() { x = y = z = 0.0; }
 	Vec3(float x, float y, float z) : x(x), y(y), z(z) { }
 	Vec3(BlockPos const& pos) : x(float(pos.x)), y(float(pos.y)), z(float(pos.z)) {}
+
+	bool operator==(const Vec3& rhs) const {
+		return x == rhs.x && y == rhs.y && z == rhs.z;
+	}
 };
