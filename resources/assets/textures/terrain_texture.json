@@ -1,0 +1,11 @@
+{
+	"num_mip_levels": 4,
+	"padding": 8,
+	"resource_pack_name": "cosmos",
+	"texture_name": "atlas.terrain",
+	"texture_data": {
+        "test_block": {
+            "textures": "textures/blocks/test_block"   
+        }
+    }
+}

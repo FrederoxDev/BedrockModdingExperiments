@@ -24,7 +24,7 @@ public:
 	virtual void registerItem()
 	{
 		mItemWeakPtr = SharedPtr<T>(new T(mIdentifier, ItemRegistry::getMaxItemID() + 1));
-		ItemRegistry::registerItem(mItemWeakPtr);
+		ItemRegistry::registerItem(mItemWeakPtr.get());
 	}
 
 	virtual void initializeClient()

@@ -1,0 +1,11 @@
+{
+    "format_version": "1.14.0",
+    "test_block": {
+        "textures": {
+            "up": "test_block",
+            "down": "test_block",
+            "side": "test_block"
+        },
+        "sound": "metal"
+    }
+}
