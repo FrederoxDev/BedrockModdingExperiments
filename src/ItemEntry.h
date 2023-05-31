@@ -1,5 +1,6 @@
 #pragma once
 #include "Minecraft/Memory/SharedPtr.h"
+#include "Minecraft/Items/Item.h"
 
 class ItemEntryBase {
 protected:
@@ -22,11 +23,8 @@ public:
 
 	virtual void registerItem()
 	{
-		short itemID = ItemRegistry::getMaxItemID() + 1;
-		auto shared = SharedPtr<T>(new T(mIdentifier, itemID));
-		Zenova_Info("{}: {}", mIdentifier, itemID);
-		ItemRegistry::registerItem(shared);
-		mItemWeakPtr = shared;
+		mItemWeakPtr = SharedPtr<T>(new T(mIdentifier, ItemRegistry::getMaxItemID() + 1));
+		ItemRegistry::registerItem(mItemWeakPtr);
 	}
 
 	virtual void initializeClient()

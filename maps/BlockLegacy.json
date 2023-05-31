@@ -1,94 +1,97 @@
 {
+    "includes": [
+        "Minecraft/Blocks/BlockLegacy.h"
+    ],
     "functions": [
         {
-            "address": "0x0", 
+            "address": "0x0",
             "name": "?setMinRequiredBaseGameVersion@BlockLegacy@@QEAAAEAV1@AEBVBaseGameVersion@@@Z"
-        }, 
+        },
         {
-            "address": "0x0", 
+            "address": "0x0",
             "name": "?createBlockPermutations@BlockLegacy@@QEAAXI@Z"
         },
         {
             "address": "0x164EC50",
             "name": "??0BlockLegacy@@QEAA@AEBV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@HAEBVMaterial@@@Z"
-        }, 
+        },
         {
-            "address": "0x0", 
+            "address": "0x1651D90",
             "name": "?tryGetStateFromLegacyData@BlockLegacy@@QEBAPEBVBlock@@G@Z"
-        }, 
+        },
         {
-            "address": "0x0", 
+            "address": "0x0",
             "name": "?clip@BlockLegacy@@QEBA?AVHitResult@@AEAVBlockSource@@AEBVBlockPos@@AEBVVec3@@2_NAEBVAABB@@@Z"
-        }, 
+        },
         {
-            "address": "0x0", 
+            "address": "0x0",
             "name": "?spawnResources@BlockLegacy@@QEBAXAEAVBlockSource@@AEBVBlockPos@@MH@Z"
-        }, 
+        },
         {
-            "address": "0x0", 
+            "address": "0x1650520",
             "name": "?popResource@BlockLegacy@@QEBAPEAVItemActor@@AEAVBlockSource@@AEBVBlockPos@@AEBVItemInstance@@@Z"
-        }, 
+        },
         {
-            "address": "0x0", 
+            "address": "0x0",
             "name": "?addAABB@BlockLegacy@@QEBA_NAEBVAABB@@PEBV2@AEAV?$vector@VAABB@@V?$allocator@VAABB@@@std@@@std@@@Z"
-        }, 
+        },
         {
-            "address": "0x0", 
+            "address": "0x0",
             "name": "?setNameId@BlockLegacy@@QEAAAEAV1@AEBV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z"
-        }, 
+        },
         {
-            "address": "0x0", 
+            "address": "0x0",
             "name": "?buildDescriptionName@BlockLegacy@@QEBA?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@AEBVBlock@@@Z"
-        }, 
+        },
         {
-            "address": "0x0", 
+            "address": "0x0",
             "name": "?addBlockProperty@BlockLegacy@@QEAAAEAV1@W4BlockProperty@@@Z"
-        }, 
+        },
         {
-            "address": "0x0", 
+            "address": "0x0",
             "name": "?setExperimental@BlockLegacy@@QEAAAEAV1@XZ"
-        }, 
+        },
         {
-            "address": "0x0", 
+            "address": "0x0",
             "name": "?setCanBeExtraBlock@BlockLegacy@@QEAAAEAV1@_N@Z"
-        }, 
+        },
         {
-            "address": "0x0", 
+            "address": "0x0",
             "name": "?setCategory@BlockLegacy@@QEAAAEAV1@W4CreativeItemCategory@@@Z"
-        }, 
+        },
         {
-            "address": "0x0", 
+            "address": "0x1651D80",
             "name": "?getDefaultState@BlockLegacy@@QEBAAEBVBlock@@XZ"
-        }, 
+        },
         {
-            "address": "0x0", 
+            "address": "0x1651D90",
             "name": "?getBlockItemId@BlockLegacy@@QEBAFXZ"
-        }, 
+        },
         {
-            "address": "0x0", 
+            "address": "0x0",
             "name": "?forEachBlockPermutation@BlockLegacy@@QEBAXV?$function@$$A6A_NAEBVBlock@@@Z@std@@@Z"
-        }, 
+        },
         {
-            "address": "0x0", 
+            "address": "0x0",
             "name": "?forEachItemStateInstance@BlockLegacy@@QEBAXV?$function@$$A6A_NAEBVItemStateInstance@@@Z@std@@@Z"
-        }, 
+        },
         {
-            "address": "0x0", 
+            "address": "0x0",
             "name": "?getDebugText@BlockLegacy@@QEBAXAEAV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AEBVBlockPos@@@Z"
-        }, 
+        },
         {
-            "address": "0x0", 
+            "address": "0x0",
             "name": "?getPlacementFacingAll@BlockLegacy@@SAEAEAVActor@@AEBVBlockPos@@M@Z"
-        }, 
+        },
         {
-            "address": "0x0", 
+            "address": "0x0",
             "name": "?getPlacementFacingAllExceptAxisY@BlockLegacy@@SAEAEAVActor@@AEBVBlockPos@@M@Z"
         }, 
         {
             "address": "0x0", 
             "name": "?createWeakPtr@BlockLegacy@@QEAA?AV?$WeakPtr@VBlockLegacy@@@@XZ"
         }
-    ], 
+    ],
     "vtable": [
         {
             "address": "0x2b8e7d0",

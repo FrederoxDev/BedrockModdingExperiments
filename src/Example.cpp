@@ -21,12 +21,12 @@ static std::string testFunc() {
 
 MOD_FUNCTION void ModStart() {
 	ModRegistry::InitializeHooks();
-	ModRegistry::RegisterItem<TestItem>("fx:test_item");
-	ModRegistry::RegisterItem<TestItem2>("fx:test_item_2");
+	ModRegistry::RegisterItem<TestItem>("test_item");
+	ModRegistry::RegisterItem<TestItem2>("test_item_2");
 
-	ModRegistry::RegisterBlock<TestBlock>("fx:test_block", MaterialType::Metal);
+	ModRegistry::RegisterBlock<TestBlock>("test_block", MaterialType::Metal);
 
-	ModRegistry::CreateItemGroup("fx:test_item", "itemGroup.test.name", CreativeItemCategory::Decorations, 
-		{ "fx:test_item", "fx:test_item_2" }
+	ModRegistry::CreateItemGroup("test_item", "itemGroup.test.name", CreativeItemCategory::Decorations, 
+		{ "test_item", "test_item_2", "test_block" }
 	);
 }

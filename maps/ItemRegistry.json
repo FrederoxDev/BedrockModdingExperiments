@@ -21,6 +21,7 @@
 		"short& ItemRegistry::mMaxItemID": "0x30507BC"
 	},
 	"includes": [
-		"Minecraft/Items/ItemRegistry.h"
+		"Minecraft/Items/ItemRegistry.h",
+		"Minecraft/Memory/SharedPtr.h"
 	]
 }

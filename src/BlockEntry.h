@@ -2,8 +2,9 @@
 #include "Minecraft/Memory/SharedPtr.h"
 #include "Minecraft/Blocks/BlockTypeRegistry.h"
 #include "Minecraft/Items/BlockItem.h"
-
-class BlockItem;
+#include "Minecraft/Blocks/BlockDefinitionGroup.h"
+#include "Zenova.h"
+#include "Minecraft/Items/ItemRegistry.h"
 
 class BlockEntryBase {
 protected:
@@ -20,7 +21,7 @@ template <typename T>
 class BlockEntry : BlockEntryBase
 {
 private:
-	std::string mIdentifier;
+	const std::string mIdentifier;
 	MaterialType mMatType;
 
 public:
@@ -29,12 +30,10 @@ public:
 
     virtual void registerBlock(BlockDefinitionGroup* blockGroup) 
     {
-		int id = blockGroup->getNextBlockId();
-		auto shared = SharedPtr<T>(new T(mIdentifier, id, Material::getMaterial(mMatType)));
-		Zenova_Info("{}", shared->getRawNameId());
-		Zenova_Info("{}: {}", mIdentifier, id);
-		BlockTypeRegistry::mBlockLookupMap[mIdentifier] = shared;
-		//mBlockWeakPtr = shared->createWeakPtr();
+		Material material = Material::getMaterial(mMatType);
+		SharedPtr<T> block = SharedPtr<T>::make(mIdentifier, blockGroup->getNextBlockId(), material);
+		BlockTypeRegistry::mBlockLookupMap[block->getRawNameId()] = block;
+		mBlockWeakPtr = BlockTypeRegistry::lookupByName(block->getRawNameId());
     }
 
 	virtual void registerBlockItem()

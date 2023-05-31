@@ -12,8 +12,8 @@
 #include "Minecraft/Util/Version.h"
 #include "Minecraft/Items/ItemStateInstance.h"
 #include "Minecraft/Util/NewType.h"
+#include "Minecraft/Blocks/BlockLegacy.h"
 
-class BlockLegacy;
 class BlockSource;
 class SpawnConditions;
 class HitResult;
@@ -24,7 +24,6 @@ class Actor;
 class BlockPos;
 class Mob;
 class Player;
-class BaseGameVersion;
 class ItemActor;
 class MobSpawnerData;
 class Color;

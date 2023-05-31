@@ -73,26 +73,31 @@ private:
 			// Todo: Support block as icon
 			Item::beginCreativeGroup(group.langKey, mItemMap[group.iconItem]->getCurrentWeak().get(), 0, nullptr);
 
-			for (std::string identifier : group.itemIdentifiers)
+			for (const std::string identifier : group.itemIdentifiers)
 			{
-				RegistryEntryType entryType = mEntryTypeLookup[identifier];
-
-				if (entryType == RegistryEntryType::ItemEntryType) 
-				{
-					Item* item = mItemMap[identifier]->getCurrentWeak().get();
-					item->setCategory(group.category);
-					Item::addCreativeItem(item, 0);
-				}
-
-				else if (entryType == RegistryEntryType::BlockEntryType)
-				{
-					BlockLegacy* block = mBlockMap[identifier]->getCurrentWeak().get();
-					block->setCategory(group.category);
-					Item::addCreativeItem(block->getDefaultState());
-				}
+				addCreativeItem(identifier, group.category);
 			}
 
 			Item::endCreativeGroup();
+		}
+	}
+
+	static void addCreativeItem(const std::string identifier, CreativeItemCategory category) 
+	{
+		RegistryEntryType entryType = mEntryTypeLookup[identifier];
+
+		if (entryType == RegistryEntryType::ItemEntryType)
+		{
+			Item* item = mItemMap[identifier]->getCurrentWeak().get();
+			item->setCategory(category);
+			Item::addCreativeItem(item, 0);
+		}
+
+		else if (entryType == RegistryEntryType::BlockEntryType)
+		{
+			BlockLegacy* block = mBlockMap[identifier]->getCurrentWeak().get();
+			//block->setCategory(category);
+			Item::addCreativeItem(block->getDefaultState());
 		}
 	}
 

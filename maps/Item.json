@@ -21,7 +21,7 @@
 			"name": "?beginCreativeGroup@Item@@SAXAEBV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@FFPEBVCompoundTag@@@Z"
 		},
 		{
-			"address": "0x0",
+			"address": "0x1560BD0",
 			"name": "?addCreativeItem@Item@@SAXAEBVBlock@@@Z"
 		},
 		{

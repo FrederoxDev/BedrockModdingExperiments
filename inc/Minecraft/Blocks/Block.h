@@ -1,16 +1,17 @@
 #pragma once
 #include "Minecraft/Blocks/BlockLegacy.h"
+#include "Minecraft/NBT/CompoundTag.h"
 
-
-//typedef CompoundTag BlockSerializationId;
+typedef CompoundTag BlockSerializationId;
+typedef unsigned int BlockRuntimeId;
 
 class Block {
-//private:
-//    const DataID mData;
-//    WeakPtr<BlockLegacy> mLegacyBlock;
-//    BlockSerializationId mSerializationId;
-//    BlockRuntimeId mRuntimeId;
-//    bool mHasRuntimeId;
+private:
+    const DataID mData;
+    WeakPtr<BlockLegacy> mLegacyBlock;
+    BlockSerializationId mSerializationId;
+    BlockRuntimeId mRuntimeId;
+    bool mHasRuntimeId;
 
 public:
     const BlockLegacy& getLegacyBlock() const;
