@@ -38,12 +38,12 @@ public:
 	static void shutdown();
 
 
-	static WeakPtr<Item> lookupByName(int&, int&, const std::string&);
+	/*static WeakPtr<Item> lookupByName(int&, int&, const std::string&);*/
 	static WeakPtr<Item> lookupByName(int&, const std::string&);
 	
-	static WeakPtr<Item> lookupByName(const std::string& inString) {
+	static WeakPtr<Item> lookupByName(const std::string& identifier) {
 		int itemAux;
-		return lookupByName(itemAux, inString);
+		return lookupByName(itemAux, identifier);
 	}
 
 	static WeakPtr<Item> getItem(const short);

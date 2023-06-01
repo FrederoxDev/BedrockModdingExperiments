@@ -9,12 +9,8 @@
 			"address": "0x1569180"
 		},
 		{
-			"name": "?lookupByName@ItemRegistry@@SA?AV?$WeakPtr@VItem@@@@AEAH0AEBV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z",
-			"address": "0x156B410"
-		},
-		{
 			"name": "?lookupByName@ItemRegistry@@SA?AV?$WeakPtr@VItem@@@@AEAHAEBV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z",
-			"address": "0x156AA50"
+			"address": "0x156aa50"
 		}
 	],
 	"variables": {

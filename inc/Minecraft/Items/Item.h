@@ -67,6 +67,23 @@ struct CreativeGroupInfo {
 };
 
 class Item {
+public:
+	class Tier {
+	private:
+		const int mLevel;
+		const int mUses;
+		const float mSpeed;
+		const int mDamage;
+		const int mEnchantmentValue;
+
+	public:
+		Tier(int level, int uses, float speed, int damage, int enchantmentValue) : mLevel(level), mUses(uses), mSpeed(speed), mDamage(damage), mEnchantmentValue(enchantmentValue) {}
+		int getUses() const { return mUses; }
+		float getSpeed() const { return mSpeed; }
+		int getAttackDamageBonus() const { return mDamage; }
+		int getLevel() const { return mLevel; }
+		int getEnchantmentValue() const { return mEnchantmentValue; }
+	};
 protected:
     unsigned char m_maxStackSize;
     std::string m_textureAtlasFile;
@@ -234,9 +251,19 @@ public:
 	static const TextureAtlasItem& getTextureItem(const std::string&);
 	const std::string& getCommandName() const;
 	std::string getSerializedName() const;
+
 	static void endCreativeGroup() {
 		mInCreativeGroup = false;
 	}
+
+	short getItemId() const { 
+		return mId; 
+	}
+
+	std::string getRawNameId() const {
+		return mRawNameId;
+	}
+
 protected:
 	float destroySpeedBonus(const ItemInstance&) const;
 	void _helpChangeInventoryItemInPlace(Actor&, ItemStack&, ItemStack&, ItemAcquisitionMethod) const;
