@@ -12,7 +12,6 @@ class ItemDescriptor;
 class BinaryStream;
 class BlockSource;
 class BlockLegacy;
-class Item;
 class IDataOutput;
 class IDataInput;
 class ItemEnchants;
@@ -55,9 +54,7 @@ protected:
 
 // Begin Non-Virtual Functions
 public:
-	const WeakPtr<Item> getItem() const {
-		return mItem;
-	};
+	const Item* getItem() const;
 	bool sameItem(int, int) const;
 	void _write(BinaryStream&) const;
 	void _read(ReadOnlyBinaryStream&);

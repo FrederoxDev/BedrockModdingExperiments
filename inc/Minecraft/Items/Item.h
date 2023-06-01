@@ -9,6 +9,8 @@
 #include "Minecraft/Util/Vec.h"
 #include "Minecraft/Util/Version.h"
 #include "Minecraft/Memory/SharedPtr.h"
+#include "Minecraft/Client/TextureUVCoordinateSet.h"
+#include "Minecraft/Memory/Mutex.h"
 
 class ReadOnlyBinaryStream;
 class Mob;
@@ -19,18 +21,14 @@ class ItemDescriptor;
 class BlockSource;
 class TextureAtlasItem;
 class Container;
-// class std::string;
 class IDataInput;
 class IDataOutput;
 class Actor;
 class Block;
 class Level;
-// class Json::Value;
 class ItemStack;
 class CompoundTag;
 class ItemInstance;
-// struct std::string;
-struct TextureUVCoordinateSet;
 enum BlockShape;
 enum InHandUpdateType;
 enum CooldownType;
@@ -41,6 +39,7 @@ class FoodItemComponent;
 class SeedItemComponent;
 class CameraItemComponent;
 class BlockLegacy;
+class AtlasItemManager;
 
 namespace Json {
 	class Value;
@@ -66,67 +65,92 @@ struct CreativeGroupInfo {
 	CreativeGroupInfo() = default;
 };
 
-class Item {
-public:
-	class Tier {
-	private:
-		const int mLevel;
-		const int mUses;
-		const float mSpeed;
-		const int mDamage;
-		const int mEnchantmentValue;
+class Tier {
+private:
+	const int mLevel;
+	const int mUses;
+	const float mSpeed;
+	const int mDamage;
+	const int mEnchantmentValue;
 
-	public:
-		Tier(int level, int uses, float speed, int damage, int enchantmentValue) : mLevel(level), mUses(uses), mSpeed(speed), mDamage(damage), mEnchantmentValue(enchantmentValue) {}
-		int getUses() const { return mUses; }
-		float getSpeed() const { return mSpeed; }
-		int getAttackDamageBonus() const { return mDamage; }
-		int getLevel() const { return mLevel; }
-		int getEnchantmentValue() const { return mEnchantmentValue; }
-	};
+public:
+	Tier(int level, int uses, float speed, int damage, int enchantmentValue) : mLevel(level), mUses(uses), mSpeed(speed), mDamage(damage), mEnchantmentValue(enchantmentValue) {}
+	int getUses() const { return mUses; }
+	float getSpeed() const { return mSpeed; }
+	int getAttackDamageBonus() const { return mDamage; }
+	int getLevel() const { return mLevel; }
+	int getEnchantmentValue() const { return mEnchantmentValue; }
+};
+
+class Item {
+private:
+	static const unsigned char& MAX_STACK_SIZE;
+	static const short& USER_DATA_SERIALIZATION_MARKER;
+	static const unsigned char& USER_DATA_SERIALIZATION_VERSION;
+
+public:
+	static const int& ICON_COLUMNS;
+	static const std::string& ICON_DESCRIPTION_PREFIX;
+	static const int& INVALID_ITEM_ID;
+
 protected:
     unsigned char m_maxStackSize;
-    std::string m_textureAtlasFile;
-    int m_frameCount;
-    bool m_animatesInToolbar;
-    bool mIsMirroredArt;
-    UseAnimation mUseAnim;
-    const std::string* mHoverTextColorFormat;
-    const TextureUVCoordinateSet* mIconTexture;
-    const TextureAtlasItem* mIconAtlas;
-    bool mUsesRenderingAdjustment;
-    Vec3 mRenderingAdjTrans;
-    Vec3 mRenderingAdjRot;
-    float mRenderingAdjScale;
-    short mId;
-    std::string mDescriptionId;
-    std::string mRawNameId;
-    std::string mNamespace;
-    HashedString mFullName;
-    short mMaxDamage;
-    bool mIsGlint : 1;
-    bool mHandEquipped : 1;
-    bool mIsStackedByData : 1;
-    bool mRequiresWorldBuilder : 1;
-    bool mExplodable : 1;
-    bool mShouldDespawn : 1;
-    bool mAllowOffhand : 1;
-    bool mIgnoresPermissions : 1;
-    bool mExperimental : 1;
-    int mMaxUseDuration;
-    BaseGameVersion mMinRequiredBaseGameVersion;
-    WeakPtr<BlockLegacy> mLegacyBlock;
-    CreativeItemCategory mCreativeCategory;
-    Item* mCraftingRemainingItem;
-    std::unique_ptr<FoodItemComponent> mFoodComponent;
-    std::unique_ptr<SeedItemComponent> mSeedComponent;
-    std::unique_ptr<CameraItemComponent> mCameraComponent;
-    std::vector<std::function<void()>> mOnResetBAIcallbacks;
+
 public:
-    static bool& mInCreativeGroup;
-    static std::vector<ItemInstance>& mCreativeList;
-    static std::vector<std::vector<ItemInstance>>& mCreativeGroups;
-    static std::vector<CreativeGroupInfo>& mCreativeGroupInfo;
+	static const std::string& TAG_DAMAGE;
+	static std::weak_ptr<AtlasItemManager>& mItemTextureItems;
+	static TextureUVCoordinateSet& mInvalidTextureUVCoordinateSet;
+	static const int& DEFAULT_TEXTURE_VARIANT;
+	static const int& DEFAULT_ICON_ATLAS_BOUNDS;
+
+protected:
+	std::string m_textureAtlasFile;
+	int m_frameCount;
+	bool m_animatesInToolbar;
+	bool mIsMirroredArt;
+	UseAnimation mUseAnim;
+	const std::string* mHoverTextColorFormat;
+	const TextureUVCoordinateSet* mIconTexture;
+	const TextureAtlasItem* mIconAtlas;
+	bool mUsesRenderingAdjustment;
+	Vec3 mRenderingAdjTrans;
+	Vec3 mRenderingAdjRot;
+	float mRenderingAdjScale;
+	short mId;
+	std::string mDescriptionId;
+	std::string mRawNameId;
+	std::string mNamespace;
+	HashedString mFullName;
+	short mMaxDamage;
+	bool mIsGlint : 1;
+	bool mHandEquipped : 1;
+	bool mIsStackedByData : 1;
+	bool mRequiresWorldBuilder : 1;
+	bool mExplodable : 1;
+	bool mShouldDespawn : 1;
+	bool mAllowOffhand : 1;
+	bool mIgnoresPermissions : 1;
+	bool mExperimental : 1;
+	int mMaxUseDuration;
+	BaseGameVersion mMinRequiredBaseGameVersion;
+	WeakPtr<BlockLegacy> mLegacyBlock;
+	CreativeItemCategory mCreativeCategory;
+	Item* mCraftingRemainingItem;
+	std::unique_ptr<FoodItemComponent> mFoodComponent;
+	std::unique_ptr<SeedItemComponent> mSeedComponent;
+	std::unique_ptr<CameraItemComponent> mCameraComponent;
+	std::vector<std::function<void()>> mOnResetBAIcallbacks;
+
+public:
+	static Bedrock::Threading::Mutex& mCreativeListMutex;
+	static std::vector<ItemInstance, std::allocator<ItemInstance>>& mCreativeList;
+	static std::vector<ItemStack, std::allocator<ItemStack>>& mCreativeListStack;
+	static const bool& mGenerateDenyParticleEffect;
+	static bool& mInCreativeGroup;
+	static std::vector<std::vector<ItemInstance, std::allocator<ItemInstance>>, std::allocator<std::vector<ItemInstance, std::allocator<ItemInstance>>>>& mCreativeGroups;
+	static std::vector<CreativeGroupInfo, std::allocator<CreativeGroupInfo>>& mCreativeGroupInfo;
+	static bool& mAllowExperimental;
+	static BaseGameVersion& mWorldBaseGameVersion;
 
 	Item(const std::string&, short);
 	virtual ~Item();
