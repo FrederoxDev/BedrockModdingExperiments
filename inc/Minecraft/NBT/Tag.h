@@ -22,21 +22,29 @@ public:
         List,
         Compound,
         IntArray
-	};
+    };
 
-public:
-	virtual ~Tag();
-	virtual void deleteChildren();
-	virtual bool equals(const Tag&) const;
-	virtual void print(PrintStream&) const;
-	virtual void print(const std::string&, PrintStream&) const;
+    static const std::string NullString;
+    static const int TAGERR_OUT_OF_BOUNDS;
+    static const int TAGERR_BAD_TYPE;
 
-	// Begin Non-Virtual Functions
-	static std::unique_ptr<Tag, std::default_delete<Tag>> readNamedTag(IDataInput&, std::string&);
-	static void writeNamedTag(const std::string&, const Tag&, IDataOutput&);
-	static std::unique_ptr<Tag,std::default_delete<Tag>> newTag(Tag::Type);
-	static std::string getTagName(Tag::Type);
+    virtual ~Tag() = default;
+    virtual void deleteChildren() {}
+    virtual void write(IDataOutput&) const = 0;
+    virtual void load(IDataInput&) = 0;
+    virtual std::string toString() const = 0;
+    virtual Type getId() const = 0;
+    virtual bool equals(const Tag&) const;
+    virtual void print(PrintStream&) const;
+    virtual void print(const std::string&, PrintStream&) const;
+    virtual std::unique_ptr<Tag> copy() const = 0;
+    virtual size_t hash() const = 0;
 
-	// Begin Variables
-	// public: static class std::basic_string<char,struct std::char_traits<char>,class std::allocator<char> > const Tag::NullString;
+    static std::unique_ptr<Tag> readNamedTag(IDataInput&, std::string&);
+    static void writeNamedTag(const std::string&, const Tag&, IDataOutput&);
+    static std::unique_ptr<Tag> newTag(Type);
+    static std::string getTagName(Type);
+    
+protected:
+    Tag();
 };

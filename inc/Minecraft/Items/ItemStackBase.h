@@ -64,8 +64,8 @@ public:
 	void set(int);
 	bool hasSameUserData(const ItemStackBase&) const;
 	bool hasSameAuxValue(const ItemStackBase&) const;
-	void setUserData(std::unique_ptr<CompoundTag,std::default_delete<CompoundTag>>);
-	std::unique_ptr<CompoundTag,std::default_delete<CompoundTag>> getNetworkUserData() const;
+	void setUserData(std::unique_ptr<CompoundTag>);
+	std::unique_ptr<CompoundTag> getNetworkUserData() const;
 	void addCustomUserData(BlockActor&, BlockSource&);
 	bool isEnchanted() const;
 	ItemEnchants getEnchantsFromUserData() const;

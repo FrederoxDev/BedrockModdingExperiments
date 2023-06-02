@@ -3,43 +3,56 @@
 #include "Minecraft/Items/ItemStackBase.h"
 #include "Zenova.h"
 #include "Minecraft/NBT/CompoundTag.h"
-#include <stdlib.h>
+#include <cstdlib>
+#include <ctime>
+#include <random>
 
 class Level;
 
 class TestItem : public Item {
-protected:
-	int mPrefix;
-
 public:
 	TestItem(const std::string&, short);
 
-	virtual void readAdditionalData(ItemStackBase& itemStackBase, const CompoundTag& compound) const 
-	{
-		Item::readAdditionalData(itemStackBase, compound);
-		Zenova_Info("Item: {}", itemStackBase.getItem()->getCommandName());
-		//Zenova_Info("Compound: {}", compound.toString());
-	}
+	virtual void writeUserData(const ItemStackBase& itemStack, IDataOutput& dataOutput) const {
+		CompoundTag* compound = itemStack.mUserData.get();
 
-	//virtual int getAttackDamage() const {
-	//	return 200;
-	//}
+		if (compound != nullptr) {
+			Zenova_Info("Write: {}", compound->toString());
 
-	//virtual void appendFormattedHovertext(const ItemStackBase& itemStackBase, Level& level, std::string& hoverText, const bool param_2) const {
-	//	CompoundTag* data = itemStackBase.mUserData.get();
+			if (!compound->contains("prefix")) {
+				std::random_device rd;
+				std::mt19937 gen(rd());
+				std::uniform_int_distribution<int> dist(0, 99);
+				int id = dist(gen);
 
-	//	// Crashes when trying to set data in the creative item menu
-	//	if (!data->contains("prefix")) {
-	//		int id = rand();
-	//		// Write temp data
-	//		Zenova_Info("id: {}", id, id % 20);
-	//		data->putInt("prefix", id % 20);
-	//		itemStackBase.save();
-	//	}
+				//compound->putInt("prefix", id);
+				Zenova_Info("Write: {}", id);
+			}
+			else {
+				Zenova_Info("Write found: {}", compound->getInt("prefix"));
+			}
+		}
 
-	//	int prefix = data->getInt("prefix");
+		Item::writeUserData(itemStack, dataOutput);
+	};
 
-	//	Item::appendFormattedHovertext(itemStackBase, level, hoverText, param_2);
-	//	hoverText = std::to_string(prefix) + hoverText;
-	//};
+	virtual void appendFormattedHovertext(const ItemStackBase& itemStack, Level& level, std::string& hoverText, const bool flag) const {
+		CompoundTag* compound = itemStack.mUserData.get();
+		int id = -1;
+
+		if (compound != nullptr) {
+			Zenova_Info("Append: {}", compound->toString());
+
+			if (compound->contains("prefix")) {
+				Zenova_Info("Append Read: {}", compound->getInt("prefix"));
+				id = compound->getInt("prefix");
+			}
+			else {
+				Zenova_Info("Append could not read prefix");
+			}
+		}
+
+		Item::appendFormattedHovertext(itemStack, level, hoverText, flag);
+		hoverText = "[" + std::to_string(id) + "] " + hoverText;
+	};
 };

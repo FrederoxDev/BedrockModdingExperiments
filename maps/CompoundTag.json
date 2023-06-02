@@ -1,6 +1,10 @@
 {
 	"functions": [
 		{
+			"name": "??1CompoundTag@@UEAA@XZ",
+			"address": "0x2affd88"
+		},
+		{
 			"address": "0x0FDBC40",
 			"name": "??0CompoundTag@@QEAA@XZ"
 		},
@@ -122,7 +126,7 @@
 			"parent": "Tag",
 			"address": "0x2affd88",
 			"functions": [
-				"??1CompoundTag@@UEAA@XZ",
+				"",
 				"?write@CompoundTag@@UEBAXAEAVIDataOutput@@@Z",
 				"?load@CompoundTag@@UEAAXAEAVIDataInput@@@Z",
 				"?toString@CompoundTag@@UEBA?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@XZ",
