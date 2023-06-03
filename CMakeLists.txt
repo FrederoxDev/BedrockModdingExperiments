@@ -2,9 +2,9 @@ cmake_minimum_required(VERSION 3.12)
 
 set(ModName BedrockModdingExperiments)
 set(SourceDir src)
-set(IncludeDir inc)
+set(IncludeDir BedrockHeaders/inc)
 set(generated_directory "${CMAKE_CURRENT_SOURCE_DIR}/${SourceDir}/generated")
-set(maps_directory "${CMAKE_CURRENT_SOURCE_DIR}/maps")
+set(maps_directory "${CMAKE_CURRENT_SOURCE_DIR}/BedrockHeaders/maps")
 
 # maybe figure out a way to move this all to another cmake file?
 set(CMAKE_ASM_NASM_OBJECT_FORMAT win64)
