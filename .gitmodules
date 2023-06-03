@@ -1,0 +1,3 @@
+[submodule "BedrockHeaders"]
+	path = BedrockHeaders
+	url = https://github.com/FrederoxDev/BedrockHeaders
