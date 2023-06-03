@@ -189,7 +189,7 @@
             "name": "?updateComponent@ItemStackBase@@QEAA_NAEBV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@AEBVValue@Json@@@Z"
         },
         {
-            "address": "0x0",
+            "address": "0x1575950",
             "name": "?serializeComponents@ItemStackBase@@QEBAXAEAVIDataOutput@@@Z"
         },
         {

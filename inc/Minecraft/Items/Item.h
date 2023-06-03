@@ -161,7 +161,7 @@ public:
 	virtual Item& setMaxStackSize(unsigned char);
 	virtual Item& setCategory(CreativeItemCategory);
 	virtual Item& setStackedByData(bool);
-	virtual Item& setMaxDamage(int);
+	virtual Item& setMaxDamage(int); // this is durability
 	virtual Item& setHandEquipped();
 	virtual Item& setUseAnimation(UseAnimation);
 	virtual Item& setMaxUseDuration(int);

@@ -104,6 +104,13 @@ public:
 	void serializeComponents(IDataOutput&) const;
 	void deserializeComponents(IDataInput&);
 	bool isExperimental() const;
+
+	void setMaxDamage(short newDamage) {
+		if (mItem != nullptr) {
+			getItem()->setDamageValue(*this, newDamage);
+		}
+	}
+
 private:
 	void _setChargedItem(const ItemInstance&);
 	void _makeChargedItemFromUserData();
